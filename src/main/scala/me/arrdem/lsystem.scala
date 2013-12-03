@@ -33,6 +33,7 @@ trait LSystem[keytype,fntype]
   }
   
   implicit def symbol2Assignment(s:keytype) = Assignment(s)
+  implicit def str2seq(s:String) = s.split("|").toSeq
 
   def Transition(e:Function0[Tuple2[keytype,Seq[keytype]]]) = {
     _tr_map += e()
