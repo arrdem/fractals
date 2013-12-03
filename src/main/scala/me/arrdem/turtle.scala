@@ -75,7 +75,8 @@ class Turtle extends JPanel {
   }
 
   def render(g:Graphics) = {
-
+    var incr = 1.0f / lines.length
+    var cur_color = 0.0f
     val g2d : Graphics2D = g.asInstanceOf[Graphics2D]
 
     /*g2d.setColor(Color.black)
@@ -90,8 +91,10 @@ class Turtle extends JPanel {
 	//find min/max
 	//transform lines based off of this and the bounding of the window
     
-    for(l <- lines) {
-      // take care of the initial case    
+    for(l <- lines) { 
+      g2d.setColor(new Color(Color.HSBtoRGB(cur_color,1.0f,0.8f))) 
+      cur_color = (cur_color + incr)
+
       val p1 : Point2D=new Point2D.Double((l.getX1() - _min_x) * getSize().width / (_max_x - _min_x),(l.getY1() - _min_y) * getSize().height / (_max_y - _min_y))
       val p2 : Point2D=new Point2D.Double((l.getX2() - _min_x) * getSize().width / (_max_x - _min_x),(l.getY2() - _min_y) * getSize().height / (_max_y - _min_y))
 	 val new_line : Line2D=new Line2D.Double(p1,p2)
