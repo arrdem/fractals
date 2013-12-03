@@ -27,6 +27,10 @@ class Turtle extends JPanel {
   var _size = (1024, 1024);                      // basic size of window, px
   var _x : Double = (_size._1 / 2.0)
   var _y : Double = 0.0
+  var _min_x : Double = _x
+  var _min_y : Double = _y
+  var _max_x : Double = _x
+  var _max_y : Double = _y
   var lines = LinkedList[Line2D]()               // seq of line segments
   var stack = Stack[(Double,Double,Double)]()
 
@@ -35,6 +39,11 @@ class Turtle extends JPanel {
             _x,_y,heading,distance))*/
     val xf = _x + (cos(heading) * distance.toDouble)
     val yf = _y + (sin(heading) * distance.toDouble)
+    
+    if(xf > _max_x) _max_x = xf    
+    if(xf < _min_x) _min_x = xf
+    if(yf > _max_y) _max_y = yf
+    if(yf < _min_y) _min_y = yf
 
     val p1 : Point2D=new Point2D.Double(_x,_y)
     val p2 : Point2D=new Point2D.Double(xf,yf)
@@ -68,18 +77,31 @@ class Turtle extends JPanel {
   def render(g:Graphics) = {
 
     val g2d : Graphics2D = g.asInstanceOf[Graphics2D]
+
+    /*g2d.setColor(Color.black)
+    var window_size : Rectangle=new Rectangle(0,0,getSize().width,getSize().height);
+    g2d.draw(window_size);*/
+    super.setBackground(Color.black)
+
     g2d.setColor(Color.green)
-    g2d.setBackground(Color.black)
 
-    println("[DEBUG] RENDERING --------------------------")
+    //println("[DEBUG] RENDERING --------------------------")
 
+	//find min/max
+	//transform lines based off of this and the bounding of the window
+    
     for(l <- lines) {
-      // take care of the initial case
-      g2d.draw(l)
+      // take care of the initial case    
+      val p1 : Point2D=new Point2D.Double((l.getX1() - _min_x) * getSize().width / (_max_x - _min_x),(l.getY1() - _min_y) * getSize().height / (_max_y - _min_y))
+      val p2 : Point2D=new Point2D.Double((l.getX2() - _min_x) * getSize().width / (_max_x - _min_x),(l.getY2() - _min_y) * getSize().height / (_max_y - _min_y))
+	 val new_line : Line2D=new Line2D.Double(p1,p2)
+
+      g2d.draw(new_line)
     }
   }
 
   override def paintComponent(g:Graphics) = {
+    super.setBackground(Color.black)
     super.paintComponent(g)
     render(g)
   }

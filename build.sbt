@@ -8,4 +8,4 @@ organization := "me.arrdem"
 
 scalacOptions ++= Seq("-unchecked", "-deprecation")
 
-mainClass in (Compile, run) := Some("me.arrdem.planter.Planter")
+mainClass in (Compile, run) := Some("me.arrdem.planter.Runner")
