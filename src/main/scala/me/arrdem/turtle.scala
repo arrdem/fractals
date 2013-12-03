@@ -35,8 +35,6 @@ class Turtle extends JPanel {
   var stack = Stack[(Double,Double,Double)]()
 
   def draw(distance: Int) = {
-    /*println(format("[DEBUG] Drawing...   (%f, %f), theta: %f, distance: %d",
-            _x,_y,heading,distance))*/
     val xf = _x + (cos(heading) * distance.toDouble)
     val yf = _y + (sin(heading) * distance.toDouble)
     
@@ -56,21 +54,18 @@ class Turtle extends JPanel {
   }
 
   def turn(dTheta : Double) = {
-    /*println(format("Turning... %f %f", heading, dTheta))*/
     heading += dTheta
     None;
   }
 
   def pop() = {
     val top = stack.pop()
-    /*println(format("[DEBUG] Popping the stack! (%f, %f)", top._2, top._3))*/
     heading = top._1
     _x = top._2
     _y = top._3
   }
 
   def push() = {
-    /*println(format("[DEBUG] Pushing the stack! (%f, %f)", _x, _y))*/
     stack.push((heading, _x, _y))
   }
 
@@ -82,8 +77,6 @@ class Turtle extends JPanel {
     super.setBackground(Color.black)
 
     g2d.setColor(Color.green)
-
-    //println("[DEBUG] RENDERING --------------------------")
 
 	//find min/max
 	//transform lines based off of this and the bounding of the window
